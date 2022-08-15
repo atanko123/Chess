@@ -1,6 +1,6 @@
 <template>
     <div class="board-field" :style="{ backgroundColor: field.color }">
-    	{{ field.positionX }}-{{ field.positionY}}
+    	{{ field.label }}
     </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
 .board-field {
 	width: 100px;
 	height: 100px;
+	cursor: pointer;
 }
 
 </style>
