@@ -1,16 +1,16 @@
 <template>
   <div class="board-wrapper">
     <div v-for="(row, index) in board" :key="index">
-        <div v-for="field in row" :key="field.id">
-			<chess-field :field="field" />
-			{{ test }}
-        </div>
+		<div class="board-row">
+			<div v-for="field in row" :key="field.id">
+				<chess-field :field="field" />
+			</div>
+		</div>
     </div>
   </div>
 </template>
 
 <script>
-import { board } from '../constants/board.js'
 import ChessField from './ChessField.vue'
 import { mapState } from 'vuex'
 
@@ -20,17 +20,13 @@ export default {
 	components: {
 		ChessField,
 	},
-	data () {
-		return {
-			board: board
-		}
-	},
 	computed: {
 		...mapState([
-		])
+			'board',
+		]),
 	},
 	created() {
-	console.log('board', board)
+	console.log('board', this.board)
 	}
 }
 
@@ -40,7 +36,12 @@ export default {
 
 .board-wrapper {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+}
+
+.board-row {
+	display: flex;
+	display: row;
 }
 
 .board-field {
