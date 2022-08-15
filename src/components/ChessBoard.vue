@@ -3,6 +3,7 @@
     <div v-for="(row, index) in board" :key="index">
         <div v-for="field in row" :key="field.id">
 			<chess-field :field="field" />
+			{{ test }}
         </div>
     </div>
   </div>
@@ -11,6 +12,8 @@
 <script>
 import { board } from '../constants/board.js'
 import ChessField from './ChessField.vue'
+import { mapState } from 'vuex'
+
 
 export default {
 
@@ -21,6 +24,10 @@ export default {
 		return {
 			board: board
 		}
+	},
+	computed: {
+		...mapState([
+		])
 	},
 	created() {
 	console.log('board', board)

@@ -2,16 +2,18 @@
   "name": "chess",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
     "build": "vite build",
+    "dev": "vite",
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
-    "vue": "^2.7.7"
+    "vue": "^2.7.7",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "^2.0.0",
     "@vitejs/plugin-vue2": "^1.1.2",
+    "@vue/cli-plugin-vuex": "~4.5.12",
     "terser": "^5.14.2",
     "vite": "^3.0.2"
   }
