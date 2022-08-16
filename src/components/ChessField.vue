@@ -4,6 +4,9 @@
 		:style="{ backgroundColor: field.color }"
 		@click="setActiveField(field.label)">
 		<span v-show="isPotential" class="potential-dot"></span>
+		<div v-if="figure" class="figure-wrapper">
+			<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
+		</div>
     </div>
 </template>
 
@@ -15,6 +18,7 @@ export default {
 	props: {
 		field: { type: Object, required: true },
 		isPotential: { type: Boolean, default: false },
+		figure: { type: Object, default: null },
 	},
 	computed: {
 		...mapState([
@@ -54,12 +58,25 @@ export default {
 	opacity: 0.5;
 }
 
+.figure-wrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.figure {
+	width: 80%;
+	height: 80%;
+}
+
 .potential-dot {
 	height: 30px;
 	width: 30px;
 	background-color: rgb(192, 226, 141);
 	border-radius: 50%;
-	display: flex;
+	display: block;
 	opacity: 0.5;
 }
 

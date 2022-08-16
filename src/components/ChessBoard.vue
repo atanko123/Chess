@@ -1,9 +1,11 @@
 <template>
   <div class="board-wrapper">
-    <div v-for="(row, index) in board" :key="index">
+    <div v-for="(row, y) in board" :key="y">
 		<div class="board-row">
-			<div v-for="field in row" :key="field.id">
-				<chess-field :field="field" />
+			<div v-for="(field, x) in row" :key="field.id">
+				<chess-field
+					:field="field"
+					:figure="placedFigures[y][x]" />
 			</div>
 		</div>
     </div>
@@ -23,6 +25,7 @@ export default {
 	computed: {
 		...mapState([
 			'board',
+			'placedFigures',
 		]),
 	},
 	created() {
