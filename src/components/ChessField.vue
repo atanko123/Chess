@@ -3,7 +3,7 @@
 		:class="{ 'active': isActive }"
 		:style="{ backgroundColor: field.color }"
 		@click="setActiveField(field.label)">
-    	{{ field.label }}
+		<span v-show="isPotential" class="potential-dot"></span>
     </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
 
 	props: {
 		field: { type: Object, required: true },
+		isPotential: { type: Boolean, default: false },
 	},
 	computed: {
 		...mapState([
@@ -38,9 +39,27 @@ export default {
 	width: 100px;
 	height: 100px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.field-label {
+	display: flex;
+	justify-content: start;
+	align-items: start;
 }
 
 .active {
+	opacity: 0.5;
+}
+
+.potential-dot {
+	height: 30px;
+	width: 30px;
+	background-color: rgb(192, 226, 141);
+	border-radius: 50%;
+	display: flex;
 	opacity: 0.5;
 }
 
