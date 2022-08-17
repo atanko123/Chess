@@ -1,15 +1,20 @@
 <template>
-  <div class="board-wrapper">
-    <div v-for="(row, y) in board" :key="y">
-		<div class="board-row">
-			<div v-for="(field, x) in row" :key="field.id">
-				<chess-field
-					:field="field"
-					:figure="placedFigures[y][x]"
-					:isPotential="isFieldPotential(field.label)" />
+  <div>
+	<div class="turn-text">
+		Move {{ activeTurn }}
+	</div>
+	<div class="board-wrapper">
+		<div v-for="(row, y) in board" :key="y">
+			<div class="board-row">
+				<div v-for="(field, x) in row" :key="field.id">
+					<chess-field
+						:field="field"
+						:figure="placedFigures[y][x]"
+						:isPotential="isFieldPotential(field.label)" />
+				</div>
 			</div>
 		</div>
-    </div>
+	</div>
   </div>
 </template>
 
@@ -27,6 +32,8 @@ export default {
 		...mapState([
 			'board',
 			'placedFigures',
+			'activeTurn',
+
 		]),
 		...mapGetters([
 			'isFieldPotential',
@@ -54,6 +61,10 @@ export default {
 .board-field {
 	width: 100px;
 	height: 100px;
+}
+
+.turn-text {
+	font-weight: 600;
 }
 
 </style>

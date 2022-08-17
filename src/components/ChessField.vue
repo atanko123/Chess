@@ -2,7 +2,7 @@
     <div class="board-field"
 		:class="{ 'active': isActive }"
 		:style="{ backgroundColor: field.color }"
-		@click="activateField()">
+		@click="clickOnField()">
 			<div v-if="figure" class="figure-wrapper">
 				<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
 			</div>
@@ -32,9 +32,14 @@ export default {
 	methods: {
 		...mapActions([
 			'setActiveField',
+			'moveFigure',
 		]),
-		activateField () {
-			if (this.figure && this.activeTurn === this.figure.type) {
+		clickOnField () {
+			if (this.isPotential) {
+				this.moveFigure(this.field.label)
+			}
+			// activate field
+			else if (this.figure && this.activeTurn === this.figure.type) {
 				this.setActiveField(this.field.label)
 			}
 		}

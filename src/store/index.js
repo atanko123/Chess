@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { boardConfig, positionX, positionY } from '../constants/board.js'
+import { boardConfig, positionX, positionY, getPositionIndex } from '../constants/board.js'
 import { generateBoard } from '../helper/boardGenerator'
 import { figures } from '../constants/figures.js'
 import { placeFigures } from '../helper/placeFigures'
@@ -43,6 +43,11 @@ export default new Vuex.Store({
 	},
 	SET_ACTIVE_TURN(state, activeTurn) {
 		state.activeTurn = activeTurn
+	},
+	SET_MOVE_FIGURE(state, data) {
+		const { position, figure } = data
+		console.log("position, figure", position, figure)
+		state.placedFigures[position.y][position.x] = figure
 	}
   },
   actions: {
@@ -56,6 +61,20 @@ export default new Vuex.Store({
 	setActiveTurn ({ commit }, activeTurn) {
 		commit('SET_ACTIVE_TURN', activeTurn)
 	},
+	moveFigure({ state, commit, dispatch }, moveToField) {
+		const fromPosition = getPositionIndex(state.activeField)
+		const toPosition = getPositionIndex(moveToField)
+		const figure  = state.placedFigures[fromPosition.y][fromPosition.x]
+		commit('SET_MOVE_FIGURE', { position: fromPosition, figure: null })
+		commit('SET_MOVE_FIGURE', { position: toPosition, figure: figure })
+
+		// No field is active after move
+		dispatch('setActiveField', null)
+		// Toggle turn
+		dispatch('setActiveTurn', state.activeTurn === "white" ? "black" : "white")
+
+		console.log("placedFigures", state.placedFigures)
+	}
   },
   modules: {
   }
