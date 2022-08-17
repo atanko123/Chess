@@ -1,15 +1,16 @@
 <template>
   <div>
 	<div class="turn-text">
-		Move {{ activeTurn }}
+		Move {{ activeTurn }} 
+		<button @click="turnScreen">Turn screen</button>
 	</div>
 	<div class="board-wrapper">
-		<div v-for="(row, y) in board" :key="y">
+		<div v-for="(row, y) in getBoard" :key="y">
 			<div class="board-row">
 				<div v-for="(field, x) in row" :key="field.id">
 					<chess-field
 						:field="field"
-						:figure="placedFigures[y][x]"
+						:figure="getPlacedFigures[y][x]"
 						:isPotential="isFieldPotential(field.label)" />
 				</div>
 			</div>
@@ -20,7 +21,7 @@
 
 <script>
 import ChessField from './ChessField.vue'
-import { mapGetters, mapState } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 
 export default {
@@ -30,18 +31,20 @@ export default {
 	},
 	computed: {
 		...mapState([
-			'board',
-			'placedFigures',
 			'activeTurn',
 
 		]),
 		...mapGetters([
 			'isFieldPotential',
+			'getBoard',
+			'getPlacedFigures',
 		]),
 	},
-	created() {
-	console.log('board', this.board)
-	}
+	methods: {
+		...mapActions([
+			'turnScreen',
+		]),
+	},
 }
 
 </script>
@@ -51,6 +54,8 @@ export default {
 .board-wrapper {
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	height: 100%;
 }
 
 .board-row {
@@ -59,8 +64,8 @@ export default {
 }
 
 .board-field {
-	width: 100px;
-	height: 100px;
+	max-width: 100px;
+	max-height: 100px;
 }
 
 .turn-text {

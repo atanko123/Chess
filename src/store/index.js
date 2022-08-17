@@ -15,6 +15,7 @@ export default new Vuex.Store({
 	placedFigures: placeFigures(boardConfig, figures),
 	activeField: null,
 	activeTurn: "white",
+	whiteIsDown: true,
   },
   getters: {
 	potentialFields (state) {
@@ -35,7 +36,38 @@ export default new Vuex.Store({
 	},
 	isFieldPotential: (state, getters) => label => {
 		return getters.potentialFields.includes(label)
-	}
+	},
+	getBoard (state) {
+		if (state.whiteIsDown) {
+			console.log("state.board", state.board)
+			return state.board
+		}
+		const board = state.board
+		const reversed = []
+		for (let y = board.length - 1; y >= 0; y--) {
+			const row = []
+			for (let x = board[y].length - 1; x >= 0; x--) {
+				row.push(board[y][x])
+			}
+			reversed.push(row)
+		}
+		return reversed
+	},
+	getPlacedFigures (state) {
+		if (state.whiteIsDown) {
+			return state.placedFigures
+		}
+		const figures = state.placedFigures
+		const reversed = []
+		for (let y = figures.length - 1; y >= 0; y--) {
+			const row = []
+			for (let x = figures[y].length - 1; x >= 0; x--) {
+				row.push(figures[y][x])
+			}
+			reversed.push(row)
+		}
+		return reversed
+	},
   },
   mutations: {
 	SET_ACTIVE_FIELD(state, label) {
@@ -48,10 +80,14 @@ export default new Vuex.Store({
 		const { position, figure } = data
 		console.log("position, figure", position, figure)
 		state.placedFigures[position.y][position.x] = figure
+	},
+	TOGGLE_TURN_SCREEN(state) {
+		state.whiteIsDown = !state.whiteIsDown
 	}
   },
   actions: {
 	setActiveField ({ state, commit }, label) {
+		console.log("select", label)
 		if (state.activeField === label) {
 			commit('SET_ACTIVE_FIELD', null)
 		} else {
@@ -65,6 +101,7 @@ export default new Vuex.Store({
 		const fromPosition = getPositionIndex(state.activeField)
 		const toPosition = getPositionIndex(moveToField)
 		const figure  = state.placedFigures[fromPosition.y][fromPosition.x]
+		console.log("from to", fromPosition, toPosition)
 		commit('SET_MOVE_FIGURE', { position: fromPosition, figure: null })
 		commit('SET_MOVE_FIGURE', { position: toPosition, figure: figure })
 
@@ -74,6 +111,9 @@ export default new Vuex.Store({
 		dispatch('setActiveTurn', state.activeTurn === "white" ? "black" : "white")
 
 		console.log("placedFigures", state.placedFigures)
+	},
+	turnScreen ({ commit }) {
+		commit('TOGGLE_TURN_SCREEN')
 	}
   },
   modules: {

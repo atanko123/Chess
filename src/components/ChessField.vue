@@ -3,6 +3,7 @@
 		:class="{ 'active': isActive }"
 		:style="{ backgroundColor: field.color }"
 		@click="clickOnField()">
+			{{ field.label }}
 			<div v-if="figure" class="figure-wrapper">
 				<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
 			</div>
