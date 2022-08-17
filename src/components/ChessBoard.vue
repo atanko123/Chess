@@ -5,7 +5,8 @@
 			<div v-for="(field, x) in row" :key="field.id">
 				<chess-field
 					:field="field"
-					:figure="placedFigures[y][x]" />
+					:figure="placedFigures[y][x]"
+					:isPotential="isFieldPotential(field.label)" />
 			</div>
 		</div>
     </div>
@@ -14,7 +15,7 @@
 
 <script>
 import ChessField from './ChessField.vue'
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 
 export default {
@@ -26,6 +27,9 @@ export default {
 		...mapState([
 			'board',
 			'placedFigures',
+		]),
+		...mapGetters([
+			'isFieldPotential',
 		]),
 	},
 	created() {

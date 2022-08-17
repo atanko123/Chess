@@ -2,11 +2,11 @@
     <div class="board-field"
 		:class="{ 'active': isActive }"
 		:style="{ backgroundColor: field.color }"
-		@click="setActiveField(field.label)">
-		<span v-show="isPotential" class="potential-dot"></span>
-		<div v-if="figure" class="figure-wrapper">
-			<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
-		</div>
+		@click="activateField()">
+			<div v-if="figure" class="figure-wrapper">
+				<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
+			</div>
+			<div v-show="isPotential" class="potential-dot"></div>
     </div>
 </template>
 
@@ -23,6 +23,7 @@ export default {
 	computed: {
 		...mapState([
 			'activeField',
+			'activeTurn',
 		]),
 		isActive () {
 			return this.field.label === this.activeField
@@ -32,6 +33,11 @@ export default {
 		...mapActions([
 			'setActiveField',
 		]),
+		activateField () {
+			if (this.figure && this.activeTurn === this.figure.type) {
+				this.setActiveField(this.field.label)
+			}
+		}
 	}
 }
 
@@ -46,6 +52,7 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 }
 
 .field-label {
@@ -64,11 +71,13 @@ export default {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: absolute;
 }
 
 .figure {
 	width: 80%;
 	height: 80%;
+	position: absolute;
 }
 
 .potential-dot {
@@ -78,6 +87,7 @@ export default {
 	border-radius: 50%;
 	display: block;
 	opacity: 0.5;
+	position: absolute;
 }
 
 </style>
