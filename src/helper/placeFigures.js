@@ -1,20 +1,17 @@
 import { getPositionIndex } from "../constants/board.js"
 
 export function placeFigures(boardConfig, figuresConfig) {
-    let placedFigures = []
-    for (let y = 0; y < boardConfig.height; y++) {
-        const figuresRow = []
-        for (let x = 0; x < boardConfig.height; x++) {
-            figuresRow.push(null)
-        }
-        placedFigures.push(figuresRow)
-    }
+    const placedFigures = [...Array(boardConfig.length).keys()].map(row => {
+        const column = [...Array(boardConfig.length).keys()].map(column => {
+            return null
+        })
+        return column
+    })
 
     for (let figure of figuresConfig) {
-        placedFigures = fillFigures(figure, "white", placedFigures)
-        placedFigures = fillFigures(figure, "black", placedFigures)
+        fillFigures(figure, "white", placedFigures)
+        fillFigures(figure, "black", placedFigures)
     }
-    console.log("placedFigures", placedFigures)
 
     return placedFigures
 }
@@ -26,11 +23,8 @@ function fillFigures (figure, type, placedFigures) {
             id: figure.name + "-" + position,
             name: figure.name,
             type: type,
-            icon: figure.icon,
-            moveHistory: []
         }
         placedFigures[place.y][place.x] = placedFigure
     }
-
     return placedFigures
 }

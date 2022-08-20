@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { boardConfig, positionX, positionY, getPositionIndex } from '../constants/board.js'
+import { boardConfig, rowLabel, columnLabel, getPositionIndex } from '../constants/board.js'
 import { generateBoard } from '../helper/boardGenerator'
 import { figures } from '../constants/figures.js'
 import { placeFigures } from '../helper/placeFigures'
@@ -11,26 +11,26 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     history: [],
-	board: generateBoard(boardConfig, positionX, positionY),
+	board: generateBoard(boardConfig, rowLabel, columnLabel),
 	placedFigures: placeFigures(boardConfig, figures),
 	activeField: null,
 	activeTurn: "white",
 	whiteIsDown: true,
   },
   getters: {
-	potentialFields (state) {
+	potentialFields (state, getters) {
 		const potential = []
 		if (state.activeField) {
-			const figures = state.placedFigures
-			for (let y = 0; y < figures.length; y++) {
-				for (let x = 0; x < figures[y].length; x++) {
-					const figure = figures[y][x]
-					// Empty or figure of opponent
+			state.placedFigures.forEach((rowFigures, rowIndex) => {
+				rowFigures.forEach((figure, columnIndex) => {
+					// If figure on field is empty or figure of opponent
+					// field is potential
 					if (!figure || figure.type !== state.activeTurn) {
-						potential.push(`${positionX[x]}-${positionY[figures.length - y - 1]}`)
+						const label = `${rowLabel[columnIndex]}-${columnLabel[columnLabel.length - rowIndex - 1]}`
+						potential.push(label)
 					}
-				}
-			}
+				})
+			})
 		}
 		return potential
 	},
@@ -78,16 +78,17 @@ export default new Vuex.Store({
 	},
 	SET_MOVE_FIGURE(state, data) {
 		const { position, figure } = data
-		console.log("position, figure", position, figure)
 		state.placedFigures[position.y][position.x] = figure
 	},
 	TOGGLE_TURN_SCREEN(state) {
 		state.whiteIsDown = !state.whiteIsDown
-	}
+	},
+	ADD_MOVE_TO_HISTORY(state, historyData) {
+		state.history.push(historyData)
+	},
   },
   actions: {
 	setActiveField ({ state, commit }, label) {
-		console.log("select", label)
 		if (state.activeField === label) {
 			commit('SET_ACTIVE_FIELD', null)
 		} else {
@@ -97,11 +98,28 @@ export default new Vuex.Store({
 	setActiveTurn ({ commit }, activeTurn) {
 		commit('SET_ACTIVE_TURN', activeTurn)
 	},
+	addMoveToHistoy ({ state, commit }, data) {
+		const { fromField, toField } = data
+		const from = getPositionIndex(fromField)
+		const to = getPositionIndex(toField)
+		const fromFigure = state.placedFigures[from.y][from.x]
+		const toFigure = state.placedFigures[to.y][to.x]
+		const historyData = {
+			figure: fromFigure,
+			eaten: toFigure,
+			fromField: fromField,
+			toField: toField,
+		}
+		commit('ADD_MOVE_TO_HISTORY', historyData)
+		console.log("history", state.history)
+	},
 	moveFigure({ state, commit, dispatch }, moveToField) {
 		const fromPosition = getPositionIndex(state.activeField)
 		const toPosition = getPositionIndex(moveToField)
-		const figure  = state.placedFigures[fromPosition.y][fromPosition.x]
-		console.log("from to", fromPosition, toPosition)
+		// save move to history
+		dispatch('addMoveToHistoy', { fromField: state.activeField, toField: moveToField })
+
+		const figure = state.placedFigures[fromPosition.y][fromPosition.x]
 		commit('SET_MOVE_FIGURE', { position: fromPosition, figure: null })
 		commit('SET_MOVE_FIGURE', { position: toPosition, figure: figure })
 
@@ -109,8 +127,6 @@ export default new Vuex.Store({
 		dispatch('setActiveField', null)
 		// Toggle turn
 		dispatch('setActiveTurn', state.activeTurn === "white" ? "black" : "white")
-
-		console.log("placedFigures", state.placedFigures)
 	},
 	turnScreen ({ commit }) {
 		commit('TOGGLE_TURN_SCREEN')
