@@ -17,11 +17,15 @@ export default new Vuex.Store({
 	activeTurn: "white",
 	whiteIsDown: true,
 	masa: false,
+	anze: false,
   },
   getters: {
 	imageUrl: (state, getters) => (figureName, figureType) => {
 		if (state.masa && figureName === "queen") {
 			return `src/assets/figures/v1/${figureName}_masa_${figureType}.jpg`
+		}
+		else if (state.anze && figureName === "king") {
+			return `src/assets/figures/v1/${figureName}_a_${figureType}.jpg`
 		}
 		return `src/assets/figures/v1/${figureName}_${figureType}.svg`
 	},
