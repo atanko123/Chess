@@ -16,8 +16,15 @@ export default new Vuex.Store({
 	activeField: null,
 	activeTurn: "white",
 	whiteIsDown: true,
+	masa: false,
   },
   getters: {
+	imageUrl: (state, getters) => (figureName, figureType) => {
+		if (state.masa && figureName === "queen") {
+			return `src/assets/figures/v1/${figureName}_masa_${figureType}.jpg`
+		}
+		return `src/assets/figures/v1/${figureName}_${figureType}.svg`
+	},
 	potentialFields (state, getters) {
 		const potential = []
 		if (state.activeField) {

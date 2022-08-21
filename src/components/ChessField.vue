@@ -3,16 +3,16 @@
 		:class="{ 'active': isActive }"
 		:style="{ backgroundColor: field.color }"
 		@click="clickOnField()">
-			{{ field.label }}
+			<!--{{ field.label }} -->
 			<div v-if="figure" class="figure-wrapper">
-				<img class="figure" :src="`src/assets/figures/v1/${figure.name}_${figure.type}.svg`" />
+				<img class="figure" :src="imageUrl(figure.name, figure.type)" />
 			</div>
 			<div v-show="isPotential" class="potential-dot"></div>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState,mapGetters, mapActions } from 'vuex'
 
 export default {
 
@@ -25,6 +25,9 @@ export default {
 		...mapState([
 			'activeField',
 			'activeTurn',
+		]),
+		...mapGetters([
+			'imageUrl',
 		]),
 		isActive () {
 			return this.field.label === this.activeField
