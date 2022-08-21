@@ -1,10 +1,7 @@
 <template>
   <div id="app">
-    <header>
-        <ChessBoard />
-    </header>
-
     <main>
+      <ChessBoard />
     </main>
   </div>
 </template>
@@ -20,5 +17,11 @@ export default {
 </script>
 
 <style scoped>
-
+  #app {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: inline;
+    background-color: #F0F0F0;
+  }
 </style>

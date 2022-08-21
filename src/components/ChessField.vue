@@ -55,8 +55,8 @@ export default {
 <style scoped>
 
 .board-field {
-	width: 100px;
-	height: 100px;
+	width: 100%;
+	height: 100%;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
@@ -90,8 +90,8 @@ export default {
 }
 
 .potential-dot {
-	height: 30px;
-	width: 30px;
+	height: 30%;
+	width: 30%;
 	background-color: rgb(192, 226, 141);
 	border-radius: 50%;
 	display: block;
