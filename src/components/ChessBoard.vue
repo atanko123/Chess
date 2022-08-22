@@ -1,18 +1,21 @@
 <template>
 	<div>
 		<div class="turn-text">
-			{{ activeTurn }}'s turn
-			<!-- <button @click="turnScreen">Turn screen</button> -->
+			{{ activeTurn }}'s turn &nbsp;
+			<div class="icon-wrapper">
+				<img class="turn-icon" @click="turnScreen" src="src/assets/rotate.svg" />
+			</div>
 		</div>
 		<div class="board-screen">
-			<div class="board-wrapper">
-				<div v-for="(row, y) in getBoard" :key="y">
+			<div class="board-wrapper" :class="{ 'reversed': !whiteIsDown }">
+				<div v-for="(row, y) in board" :key="y">
 					<div class="board-row">
-						<div v-for="(field, x) in row" :key="field.id">
+						<div v-for="(field, x) in (row)" :key="field.id">
 							<chess-field
 								class="board-field"
+								:class="{ 'reversed': !whiteIsDown }"
 								:field="field"
-								:figure="getPlacedFigures[y][x]"
+								:figure="placedFigures[y][x]"
 								:isPotential="isFieldPotential(field.label)" />
 						</div>
 					</div>
@@ -35,12 +38,12 @@ export default {
 	computed: {
 		...mapState([
 			'activeTurn',
-
+			'whiteIsDown',
+			'board',
+			'placedFigures',
 		]),
 		...mapGetters([
 			'isFieldPotential',
-			'getBoard',
-			'getPlacedFigures',
 		]),
 	},
 	methods: {
@@ -90,6 +93,28 @@ export default {
 	text-transform: capitalize;
 	font-style: arial;
 	font-size: 20px;
+}
+
+.icon-wrapper {
+	width: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	background-color:#B8B8B8;
+	border-radius: 10px;
+}
+
+.icon-wrapper:hover {
+	background-color:#D0D0D0;
+}
+.turn-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.reversed {
+	transform: rotate(180deg);
 }
 
 </style>

@@ -48,37 +48,6 @@ export default new Vuex.Store({
 	isFieldPotential: (state, getters) => label => {
 		return getters.potentialFields.includes(label)
 	},
-	getBoard (state) {
-		if (state.whiteIsDown) {
-			console.log("state.board", state.board)
-			return state.board
-		}
-		const board = state.board
-		const reversed = []
-		for (let y = board.length - 1; y >= 0; y--) {
-			const row = []
-			for (let x = board[y].length - 1; x >= 0; x--) {
-				row.push(board[y][x])
-			}
-			reversed.push(row)
-		}
-		return reversed
-	},
-	getPlacedFigures (state) {
-		if (state.whiteIsDown) {
-			return state.placedFigures
-		}
-		const figures = state.placedFigures
-		const reversed = []
-		for (let y = figures.length - 1; y >= 0; y--) {
-			const row = []
-			for (let x = figures[y].length - 1; x >= 0; x--) {
-				row.push(figures[y][x])
-			}
-			reversed.push(row)
-		}
-		return reversed
-	},
   },
   mutations: {
 	SET_ACTIVE_FIELD(state, label) {
