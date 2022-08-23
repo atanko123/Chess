@@ -2,7 +2,7 @@
 	<div>
 		<div class="turn-text">
 			{{ activeTurn }}'s turn &nbsp;
-			<div class="icon-wrapper" @click="turnScreen">
+			<div v-if="!autoRotate" class="icon-wrapper" @click="turnScreen">
 				<img class="turn-icon" src="src/assets/rotate.svg" />
 			</div>
 		</div>
@@ -41,6 +41,7 @@ export default {
 			'whiteIsDown',
 			'board',
 			'placedFigures',
+			'autoRotate',
 		]),
 		...mapGetters([
 			'isFieldPotential',

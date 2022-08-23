@@ -18,6 +18,7 @@ export default new Vuex.Store({
 	whiteIsDown: true,
 	masa: false,
 	anze: false,
+	autoRotate: false,
   },
   getters: {
 	imageUrl: (state, getters) => (figureName, figureType) => {
@@ -107,6 +108,10 @@ export default new Vuex.Store({
 		dispatch('setActiveField', null)
 		// Toggle turn
 		dispatch('setActiveTurn', state.activeTurn === "white" ? "black" : "white")
+
+		if (state.autoRotate) {
+			dispatch('turnScreen')
+		}
 	},
 	turnScreen ({ commit }) {
 		commit('TOGGLE_TURN_SCREEN')
