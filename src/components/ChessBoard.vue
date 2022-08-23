@@ -2,8 +2,8 @@
 	<div>
 		<div class="turn-text">
 			{{ activeTurn }}'s turn &nbsp;
-			<div class="icon-wrapper">
-				<img class="turn-icon" @click="turnScreen" src="src/assets/rotate.svg" />
+			<div class="icon-wrapper" @click="turnScreen">
+				<img class="turn-icon" src="src/assets/rotate.svg" />
 			</div>
 		</div>
 		<div class="board-screen">
