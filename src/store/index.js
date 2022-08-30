@@ -19,6 +19,7 @@ export default new Vuex.Store({
 	masa: false,
 	anze: false,
 	autoRotate: false,
+	isLastMove: [],
   },
   getters: {
 	imageUrl: (state, getters) => (figureName, figureType) => {
@@ -49,10 +50,16 @@ export default new Vuex.Store({
 	isFieldPotential: (state, getters) => label => {
 		return getters.potentialFields.includes(label)
 	},
+	isFieldLastMove: (state) => label => {
+		return state.isLastMove.includes(label)
+	},
   },
   mutations: {
 	SET_ACTIVE_FIELD(state, label) {
 		state.activeField = label
+	},
+	SET_IS_LAST_MOVE (state, lastMoves) {
+		state.isLastMove = lastMoves
 	},
 	SET_ACTIVE_TURN(state, activeTurn) {
 		state.activeTurn = activeTurn
@@ -103,6 +110,7 @@ export default new Vuex.Store({
 		const figure = state.placedFigures[fromPosition.y][fromPosition.x]
 		commit('SET_MOVE_FIGURE', { position: fromPosition, figure: null })
 		commit('SET_MOVE_FIGURE', { position: toPosition, figure: figure })
+		commit('SET_IS_LAST_MOVE', [state.activeField, moveToField])
 
 		// No field is active after move
 		dispatch('setActiveField', null)

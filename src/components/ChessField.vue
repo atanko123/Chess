@@ -1,7 +1,7 @@
 <template>
     <div class="board-field"
 		:class="{ 'active': isActive }"
-		:style="{ backgroundColor: field.color }"
+		:style="{ backgroundColor: (isLastMove ? '#b9f23f' : field.color) }"
 		@click="clickOnField()">
 			<!--{{ field.label }} -->
 			<div v-if="figure" class="figure-wrapper">
@@ -19,6 +19,7 @@ export default {
 	props: {
 		field: { type: Object, required: true },
 		isPotential: { type: Boolean, default: false },
+		isLastMove: { type: Boolean, default: false },
 		figure: { type: Object, default: null },
 	},
 	computed: {

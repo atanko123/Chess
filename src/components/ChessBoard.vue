@@ -16,6 +16,7 @@
 								:class="{ 'reversed': !whiteIsDown }"
 								:field="field"
 								:figure="placedFigures[y][x]"
+								:isLastMove="isFieldLastMove(field.label)"
 								:isPotential="isFieldPotential(field.label)" />
 						</div>
 					</div>
@@ -45,6 +46,7 @@ export default {
 		]),
 		...mapGetters([
 			'isFieldPotential',
+			'isFieldLastMove',
 		]),
 	},
 	methods: {
