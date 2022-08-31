@@ -1,8 +1,14 @@
 const masa = false
 export const boardConfig = {
     length: 8,
-    white: masa ? '#FEE0FB' : '#EAEAEA',
-    black: masa ? '#ED79FC' : '#2D7FD6',
+    white: {
+        default: masa ? '#FEE0FB' : '#EAEAEA',
+        highlighted: '#DCFF93',
+    },
+    black: {
+        default: masa ? '#ED79FC' : '#2D7FD6',
+        highlighted: '#B9F23F',
+    }
 }
 
 export const rowLabel = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']

@@ -1,7 +1,7 @@
 <template>
     <div class="board-field"
 		:class="{ 'active': isActive }"
-		:style="{ backgroundColor: (isLastMove ? '#b9f23f' : field.color) }"
+		:style="{ backgroundColor: fieldColor }"
 		@click="clickOnField()">
 			<!--{{ field.label }} -->
 			<div v-if="figure" class="figure-wrapper">
@@ -29,9 +29,17 @@ export default {
 		]),
 		...mapGetters([
 			'imageUrl',
+			'getFieldColor',
+			'getFieldHighlightedColor',
 		]),
 		isActive () {
 			return this.field.label === this.activeField
+		},
+		fieldColor () {
+			if (this.isLastMove) {
+				return this.getFieldHighlightedColor(this.field.isWhite)
+			}
+			return this.getFieldColor(this.field.isWhite)
 		},
 	},
 	methods: {

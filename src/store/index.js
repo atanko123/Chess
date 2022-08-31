@@ -53,6 +53,12 @@ export default new Vuex.Store({
 	isFieldLastMove: (state) => label => {
 		return state.isLastMove.includes(label)
 	},
+	getFieldColor: (state) => isWhite => {
+		return isWhite ? boardConfig.white.default : boardConfig.black.default 	
+	},
+	getFieldHighlightedColor: (state) => isWhite => {
+		return isWhite ? boardConfig.white.highlighted : boardConfig.black.highlighted 	
+	},
   },
   mutations: {
 	SET_ACTIVE_FIELD(state, label) {

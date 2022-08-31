@@ -1,7 +1,3 @@
-export function getColor(config, isWhite) {
-    return isWhite ? config.white : config.black
-}
-
 export function getLabel(x, y, rowLabel, columnLabel) {
     return `${rowLabel[y]}-${columnLabel[columnLabel.length - x - 1]}`
 }
@@ -13,7 +9,7 @@ export function generateBoard(config, rowLabel, columnLabel) {
             const label = getLabel(row, column, rowLabel, columnLabel)
             const field = {
                 id: `field-${label}`,
-                color: getColor(config, isWhite),
+                isWhite: isWhite,
                 label: label
             }
             return field
