@@ -113,7 +113,11 @@ export default new Vuex.Store({
 		// save move to history
 		dispatch('addMoveToHistoy', { fromField: state.activeField, toField: moveToField })
 
-		const figure = state.placedFigures[fromPosition.y][fromPosition.x]
+		let figure = state.placedFigures[fromPosition.y][fromPosition.x]
+		// if pawn is at the end of the board, transform it to queen
+		if (figure.name === "pawn") {
+			figure = pawnToQueen(figure, toPosition.y)
+		}
 		commit('SET_MOVE_FIGURE', { position: fromPosition, figure: null })
 		commit('SET_MOVE_FIGURE', { position: toPosition, figure: figure })
 		commit('SET_IS_LAST_MOVE', [state.activeField, moveToField])
@@ -125,6 +129,13 @@ export default new Vuex.Store({
 
 		if (state.autoRotate) {
 			dispatch('turnScreen')
+		}
+
+		function pawnToQueen (figure, positionY) {
+			if (figure.type === "white" && positionY === 0 || figure.type === "black" && positionY === boardConfig.length - 1) {
+				figure.name = "queen"
+			}
+			return figure
 		}
 	},
 	turnScreen ({ commit }) {
