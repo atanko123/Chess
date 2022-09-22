@@ -89,7 +89,8 @@ export default new Vuex.Store({
 			commit('SET_ACTIVE_FIELD', label)
 		}
 	},
-	setActiveTurn ({ commit }, activeTurn) {
+	toggleActiveTurn ({ state, commit }) {
+		const activeTurn = state.activeTurn === "white" ? "black" : "white"
 		commit('SET_ACTIVE_TURN', activeTurn)
 	},
 	addMoveToHistoy ({ state, commit }, data) {
@@ -125,7 +126,7 @@ export default new Vuex.Store({
 		// No field is active after move
 		dispatch('setActiveField', null)
 		// Toggle turn
-		dispatch('setActiveTurn', state.activeTurn === "white" ? "black" : "white")
+		dispatch('toggleActiveTurn')
 
 		if (state.autoRotate) {
 			dispatch('turnScreen')

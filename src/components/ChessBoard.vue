@@ -5,6 +5,9 @@
 			<div v-if="!autoRotate" class="icon-wrapper" @click="turnScreen">
 				<img class="turn-icon" src="src/assets/rotate.svg" />
 			</div>
+			<div class="icon-wrapper button-wrapper" @click="toggleActiveTurn">
+				Castle
+			</div>
 		</div>
 		<div class="board-screen">
 			<div class="board-wrapper" :class="{ 'reversed': !whiteIsDown }">
@@ -52,6 +55,7 @@ export default {
 	methods: {
 		...mapActions([
 			'turnScreen',
+			'toggleActiveTurn',
 		]),
 	},
 }
@@ -106,6 +110,11 @@ export default {
 	cursor: pointer;
 	background-color:#B8B8B8;
 	border-radius: 10px;
+}
+
+.button-wrapper {
+	width: 70px;
+	margin-left: 10px;
 }
 
 .icon-wrapper:hover {
